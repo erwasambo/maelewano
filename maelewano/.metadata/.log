@@ -1,0 +1,70 @@
+!SESSION 2013-03-09 10:57:23.307 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.mobile.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.mobile.product
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2013-03-09 10:57:36.221
+!MESSAGE Could not load repository template extension contributed by org.eclipse.mylyn.bugzilla.ide with connectorKind bugzilla
+!SESSION 2013-03-09 11:10:55.460 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.mobile.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.mobile.product
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2013-03-09 11:11:12.304
+!MESSAGE Could not load repository template extension contributed by org.eclipse.mylyn.bugzilla.ide with connectorKind bugzilla
+!SESSION 2013-03-28 11:49:17.350 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.mobile.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.mobile.product
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2013-03-28 12:00:15.449
+!MESSAGE Could not load repository template extension contributed by org.eclipse.mylyn.bugzilla.ide with connectorKind bugzilla
+!SESSION 2013-03-28 12:04:40.382 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.mobile.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.mobile.product
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2013-03-28 12:05:14.437
+!MESSAGE Could not load repository template extension contributed by org.eclipse.mylyn.bugzilla.ide with connectorKind bugzilla
+!SESSION 2013-04-10 10:24:11.920 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.mobile.product -data C:\Users\maelewano\Desktop\maelewano\maelewano -product org.eclipse.epp.package.mobile.product
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2013-04-10 10:24:18.392
+!MESSAGE Could not load repository template extension contributed by org.eclipse.mylyn.bugzilla.ide with connectorKind bugzilla
+!SESSION 2013-04-10 10:31:22.327 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -data C:\Users\maelewano\Desktop\maelewano\maelewano -product org.eclipse.epp.package.mobile.product
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2013-04-10 10:31:29.024
+!MESSAGE Could not load repository template extension contributed by org.eclipse.mylyn.bugzilla.ide with connectorKind bugzilla
+!SESSION 2013-04-11 10:58:58.685 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.7.0_01
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -product org.eclipse.epp.package.mobile.product -data C:\Users\maelewano\Desktop\maelewano\maelewano -product org.eclipse.epp.package.mobile.product
+
+!ENTRY org.eclipse.mylyn.tasks.ui 4 0 2013-04-11 10:59:07.488
+!MESSAGE Could not load repository template extension contributed by org.eclipse.mylyn.bugzilla.ide with connectorKind bugzilla

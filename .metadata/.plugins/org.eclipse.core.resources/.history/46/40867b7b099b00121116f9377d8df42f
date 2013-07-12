@@ -1,0 +1,691 @@
+package com.kiko.softwareltd;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
+import android.hardware.Camera.ShutterCallback;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView.BufferType;
+import android.widget.Toast;
+
+public class AddgestureActivity extends Activity{
+    private Bitmap bmp;
+    ProgressDialog pg=null;
+    ProgressDialog pg2=null;
+    private Preview preview;
+    String filename;
+    Button ok_button,click_button,try_again_button;
+    private byte[] data2=null;
+    EditText filenameBox;
+    Cursor cursor;
+    private DataBaseManager DatabaseHelpers;
+    String table = "gestures";
+    int  red4; int  red11;	int  red16; 
+	int  red19; int  red21;	int  green2; 
+	int  green12; int  green24;	int  green30; 
+	int  green31; int  blue2;	int  blue16; 
+	int  blue20; int  blue23;	int  blue25; 
+	String length;
+	String width;
+	//ArrayList<int[]> drawnHistList;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.addgesture);
+		
+		//Create and open the database so we can use it
+		DatabaseHelpers = DataBaseManager.instance();
+		
+		
+		
+		EditText redbox011 = (EditText)findViewById(R.id.EditText01);
+		redbox011.setVisibility(View.GONE);
+		
+		EditText redbox021 = (EditText)findViewById(R.id.EditText02);
+		redbox021.setVisibility(View.GONE);
+		
+		EditText redbox031 = (EditText)findViewById(R.id.EditText03);
+		redbox031.setVisibility(View.GONE);
+		
+		EditText redbox041 = (EditText)findViewById(R.id.EditText04);
+		redbox041.setVisibility(View.GONE);
+		
+		
+		preview=new Preview(this);
+        ((FrameLayout) findViewById(R.id.preview2)).addView(preview);
+        findViewById(R.id.preview2).setVisibility(View.VISIBLE);
+        findViewById(R.id.img2).setVisibility(View.GONE);
+ 
+        ButtonListener listener=new ButtonListener();
+        click_button=((Button) findViewById(R.id.capture_button2));
+        click_button.setVisibility(View.VISIBLE);
+        click_button.setOnClickListener(listener);
+ 
+        try_again_button=((Button) findViewById(R.id.recapture_button2));
+        try_again_button.setVisibility(View.GONE);
+        try_again_button.setOnClickListener(listener);
+ 
+        ok_button=((Button) findViewById(R.id.ok_button2));
+        ok_button.setVisibility(View.GONE);
+        ok_button.setOnClickListener(listener);
+	}
+	
+	private class ButtonListener implements View.OnClickListener{
+		 
+        @Override
+        public void onClick(View v) {
+            if(v.equals(findViewById(R.id.capture_button2))){
+                pg=ProgressDialog.show(AddgestureActivity.this, null, "Capturing Image..");
+                pg.show();
+                preview.camera.takePicture(null, null, jpegCallback);
+                
+/*                EditText redbox011 = (EditText)findViewById(R.id.EditText01);
+        		redbox011.setVisibility(View.VISIBLE);
+        		
+        		EditText redbox021 = (EditText)findViewById(R.id.EditText02);
+        		redbox021.setVisibility(View.VISIBLE);
+        		
+        		EditText redbox031 = (EditText)findViewById(R.id.EditText03);
+        		redbox031.setVisibility(View.VISIBLE);
+        		
+        		EditText redbox041 = (EditText)findViewById(R.id.EditText04);
+        		redbox041.setVisibility(View.VISIBLE);*/
+                
+            }else if(v.equals(findViewById(R.id.ok_button2))){
+
+            	//process and save image
+                saveImage();
+
+            }else if(v.equals(findViewById(R.id.recapture_button2))){
+                findViewById(R.id.img2).setVisibility(View.GONE);
+                findViewById(R.id.preview2).setVisibility(View.VISIBLE);
+                preview.camera.startPreview();
+                ok_button.setVisibility(View.GONE);
+                try_again_button.setVisibility(View.GONE);
+                click_button.setVisibility(View.VISIBLE);
+                bmp.recycle();
+                
+                
+                EditText redbox011 = (EditText)findViewById(R.id.EditText01);
+        		redbox011.setVisibility(View.GONE);
+        		
+        		EditText redbox021 = (EditText)findViewById(R.id.EditText02);
+        		redbox021.setVisibility(View.GONE);
+        		
+        		EditText redbox031 = (EditText)findViewById(R.id.EditText03);
+        		redbox031.setVisibility(View.GONE);
+        		
+        		EditText redbox041 = (EditText)findViewById(R.id.EditText04);
+        		redbox041.setVisibility(View.GONE);
+                
+            }
+        }
+ 
+    }
+ 
+    ShutterCallback shutterCallback = new ShutterCallback() {
+        public void onShutter() {
+            //Log.d(TAG, "onShutter'd");
+            System.out.println("In ShutterCallback");
+        }
+    };
+ 
+    /** Handles data for raw picture */
+    PictureCallback rawCallback = new PictureCallback() {
+        public void onPictureTaken(byte[] data, Camera camera) {
+            if(data!=null){
+                bmp=BitmapFactory.decodeByteArray(data,0,data.length);
+                findViewById(R.id.img2).setVisibility(View.VISIBLE);
+                ((ImageView)findViewById(R.id.img2)).setImageBitmap(bmp);
+                findViewById(R.id.preview2).setVisibility(View.GONE);
+                
+                 if(pg!=null)
+                    pg.dismiss();
+                ok_button.setVisibility(View.VISIBLE);
+                click_button.setVisibility(View.GONE);
+                try_again_button.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+    /** Handles data for jpeg picture */
+    PictureCallback jpegCallback = new PictureCallback() {
+        public void onPictureTaken(byte[] data, Camera camera) {
+        	//drawnHistList = imageHistogram(bmp);
+        	//lengthnwidth(bmp);
+        	//Toast.makeText(getApplicationContext(), "The image length is : "+length+" and width is: "+width, Toast.LENGTH_LONG).show();
+            if(data!=null){
+                bmp=BitmapFactory.decodeByteArray(data,0,data.length);
+                processimage();
+                lengthnwidth(bmp);
+            	Toast.makeText(getApplicationContext(), "The image length is : "+length+" and width is: "+width, Toast.LENGTH_LONG).show();
+                findViewById(R.id.img2).setVisibility(View.VISIBLE);
+                ((ImageView)findViewById(R.id.img2)).setImageBitmap(bmp);
+                findViewById(R.id.preview2).setVisibility(View.GONE);
+        		//Toast.makeText(getApplicationContext(), "the red histogram is " + genhist, Toast.LENGTH_LONG).show();
+                data2 = data;
+                if(pg!=null)
+                    pg.dismiss();
+                ok_button.setVisibility(View.VISIBLE);
+                click_button.setVisibility(View.GONE);
+                try_again_button.setVisibility(View.VISIBLE);
+            }
+        	
+        }
+    };
+    
+    
+    private File getDir() {
+        File sdDir = Environment.getExternalStorageDirectory();
+ 
+        return new File(sdDir, "Maelewano");
+    }
+    
+    
+    public void saveImage(){
+
+    	//Preparing views
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.dialogue, (ViewGroup) findViewById(R.id.dialog1));
+
+        filenameBox = (EditText) layout.findViewById(R.id.editText1);
+
+        //Building dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(layout);
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //save info where you want it
+                confirmedsave();
+
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        
+    	dialog.show();
+    	    	        
+    }
+    
+    public void confirmedsave(){
+    	
+        filename = filenameBox.getText().toString();
+    	File pictureFileDir = getDir();
+    	
+    	
+    	
+    	
+        if (!pictureFileDir.exists() && !pictureFileDir.mkdirs()) {
+
+          //Log.d("Juu", "Can't create directory to save image.");
+          Toast.makeText(getApplicationContext(), "Can't create directory to save image.",
+              Toast.LENGTH_LONG).show();
+          return;
+
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmmss");
+        String date = dateFormat.format(new Date());
+
+        String ExternalStorageDirectoryPath = Environment.getExternalStorageDirectory()
+                .getAbsolutePath();
+
+        String interpretImg = ExternalStorageDirectoryPath + "/maelewano/" + filename + ".jpg";
+        File imageFile = new File(interpretImg);
+        copyDatabaseToSdCard();
+        try {
+          if (data2!=null){
+          
+          Bitmap myBitmap = BitmapFactory.decodeByteArray(data2, 0, data2.length);
+            
+          //update the database with calculated values
+      	  updatemaelewanodb();
+          
+          FileOutputStream fos = new FileOutputStream(imageFile);
+          fos.write(data2);
+          fos.close();
+
+          Toast.makeText(getApplicationContext(), "New Image saved:" + interpretImg,
+              Toast.LENGTH_LONG).show();
+          
+
+        }
+
+        } catch (Exception error) {
+          
+        }
+        findViewById(R.id.img2).setVisibility(View.GONE);
+        findViewById(R.id.preview2).setVisibility(View.VISIBLE);
+        preview.camera.startPreview();
+        ok_button.setVisibility(View.GONE);
+        try_again_button.setVisibility(View.GONE);
+        click_button.setVisibility(View.VISIBLE);
+    }
+    
+    
+    
+    
+    
+    
+ // Return an ArrayList containing histogram values for separate R, G, B channels
+      public static ArrayList<int[]> imageHistogram(Bitmap input) {
+        int[] rhistogram = new int[256];
+        int[] ghistogram = new int[256];
+        int[] bhistogram = new int[256];
+		
+		int pixel;
+		
+        for(int i=0; i<rhistogram.length; i++) rhistogram[i] = 0;
+        for(int i=0; i<ghistogram.length; i++) ghistogram[i] = 0;
+        for(int i=0; i<bhistogram.length; i++) bhistogram[i] = 0;
+     
+        for(int i=0; i<input.getWidth(); i++) {
+            for(int j=0; j<input.getHeight(); j++) {
+				//get one pixel color
+				pixel = input.getPixel(i, j);
+				
+                int red = Color.red(pixel);
+                int green = Color.green(pixel);
+                int blue = Color.blue(pixel);
+                
+                // Increase the values of colors
+                rhistogram[red]++; ghistogram[green]++; bhistogram[blue]++;
+
+            }
+        }
+        ArrayList<int[]> hist = new ArrayList<int[]>();
+         
+        hist.add (rhistogram);
+        hist.add(ghistogram);
+        hist.add(bhistogram);
+ 
+        return hist;
+     
+    }
+    
+
+    /*public static Bitmap doGreyscale(Bitmap src) {
+        // constant factors
+        final double GS_RED = 0.299;
+        final double GS_GREEN = 0.587;
+        final double GS_BLUE = 0.114;
+     
+        // create output bitmap
+        Bitmap bmOut = Bitmap.createBitmap(src.getWidth(), src.getHeight(), src.getConfig());
+        // pixel information
+        int A, R, G, B;
+        int pixel;
+     
+        // get image size
+        int width = src.getWidth();
+        int height = src.getHeight();
+     
+        // scan through every single pixel
+        for(int x = 0; x < width; ++x) {
+            for(int y = 0; y < height; ++y) {
+                // get one pixel color
+                pixel = src.getPixel(x, y);
+                // retrieve color of all channels
+                A = Color.alpha(pixel);
+                R = Color.red(pixel);
+                G = Color.green(pixel);
+                B = Color.blue(pixel);
+                // take conversion up to one single value
+                R = G = B = (int)(GS_RED * R + GS_GREEN * G + GS_BLUE * B);
+                // set new pixel color to output bitmap
+                //bmOut.setPixel(x, y, Color.argb(A, R, G, B));
+                bmOut.setPixel(x, y, Color.rgb(R, G, B));
+                
+            }
+        }
+        
+        // return final image
+        return bmOut;
+    }*/
+    
+    public void updatemaelewanodb(){
+
+    	int imageid = getimageid();
+    	//String histovalue = null;
+    	String column1 = "imageid";
+    	String column2 = "meaning";
+    	String red4column = "red4";
+    	String red11column = "red11";
+    	String red16column = "red16";
+    	String red19column = "red19";
+    	String red21column = "red21";
+    	String green2column = "green2";
+    	String green12column = "green12";
+    	String green24column = "green24";
+    	String green30column = "green30";
+    	String green31column = "green31";
+    	String blue2column = "blue2";
+    	String blue16column = "blue16";
+    	String blue20column = "blue20";
+    	String blue23column = "blue23";
+    	String blue25column = "blue25";
+    	
+    	
+    	// Create a new map of values, where column names are the keys
+    	ContentValues maelewanovalues = new ContentValues();
+
+    	maelewanovalues.put(column1, imageid);
+    	maelewanovalues.put(column2 , filename);
+    	maelewanovalues.put(red4column, red4);
+    	maelewanovalues.put(red11column, red11);
+    	maelewanovalues.put(red16column , red16);
+    	maelewanovalues.put(red19column, red19);
+    	maelewanovalues.put(red21column, red21);
+    	maelewanovalues.put(green2column , green2);
+    	maelewanovalues.put(green12column, green12);
+    	maelewanovalues.put(green24column, green24);
+    	maelewanovalues.put(green30column , green30);
+    	maelewanovalues.put(green31column, green31);
+    	maelewanovalues.put(blue2column, blue2);
+    	maelewanovalues.put(blue16column , blue16);
+    	maelewanovalues.put(blue20column, blue20);
+    	maelewanovalues.put(blue23column , blue23);
+    	maelewanovalues.put(blue25column, blue25);
+    	
+      	
+    	DatabaseHelpers.insert(table, maelewanovalues);
+    	
+
+    	
+    }
+
+    public  int getimageid(){
+    	int retrievedid = 0;
+    	Cursor cursor = DatabaseHelpers.select("SELECT imageid FROM " + table);
+		
+        //here we verify the cursor for null. If is null then the cursor must be closed.
+        //Once you open a cursor you have to close it too after you don't use it
+        if (cursor == null){
+            cursor.close();
+            
+        }
+        
+        while (cursor.isLast()){
+        	retrievedid = cursor.getInt(0)+1;
+ 
+			//Log.e("Value of description", s);
+       }
+       
+         //here we close the cursor because we do not longer need it
+      
+        cursor.close();
+    	
+		return retrievedid;
+    	
+    }
+    
+    public void lengthnwidth(Bitmap bmp){
+    	length = ""+bmp.getHeight();
+    	width = ""+bmp.getWidth();
+    	
+    }
+    
+    public void processimage(){
+    	ArrayList<int[]> drawnHistList = imageHistogram(bmp);
+   		
+   		int[] redhisto = drawnHistList.get(0);
+   		int[] greenhisto = drawnHistList.get(1);
+   		int[] bluehisto = drawnHistList.get(2);
+   		
+   		for (int i=0; i < redhisto.length; ++i){
+   			int value = redhisto[i];
+       		
+   			switch(i){
+   			case 24:
+   				red4 = value;
+ 
+   			case 82:
+   				red11 = value;
+   
+   			case 123:
+   			 red16 = value;
+
+   			case 148:
+   				red19 = value; 
+ 
+   			case 165:
+   				red21 = value;
+ 
+   			}
+
+   		}
+   		
+   		for (int i=0; i < greenhisto.length; ++i){
+   			int value = greenhisto[i];
+       		
+   			switch(i){
+   			case 8:
+   				green2 = value; 
+
+   			case 89:
+   				green12 = value; 
+
+   			case 186:
+   			 green24 = value; 
+
+   			case 239:
+   			 green30 = value; 
+	
+   			case 247:
+   			 green31 = value; 
+
+   			}
+
+   		}
+   		
+   		for (int i=0; i < bluehisto.length; ++i){
+   			int value = bluehisto[i];
+       		
+   			switch(i){
+   			case 8:
+   				blue2 = value; 
+  
+   			case 123:
+    			 blue16 = value; 
+ 	
+   			case 156:
+   				blue20 = value; 
+   
+   			case 181:
+   				blue23 = value; 
+ 
+   			case 198:
+   				blue25 = value;
+ 
+   			}
+
+   		}
+    
+}
+    /*public void processimage(){
+       	Thread t;
+        
+        t = new Thread(){
+       	public void run(){
+
+       		ArrayList<int[]> drawnHistList = imageHistogram(bmp);
+       		genhist = drawnHistList;
+       		//bmp.recycle();
+       		int[] redhisto = genhist.get(0);
+       		
+       		for (int i=0; i < redhisto.length; ++i){
+       			int value = redhisto[i];
+           		//Log.e("Value of redhistogram is: ", value);
+       			Toast.makeText(getApplicationContext(), "The red value at "+i+"is"+value, Toast.LENGTH_LONG).show();
+       		}
+
+
+       		
+       	}
+        };t.start();
+        
+    }*/
+/*    public void processimage(){
+    	ArrayList<int[]> drawnHistList = imageHistogram(bmp);
+   		genhist = drawnHistList;
+   		//bmp.recycle();
+   		int[] redhisto = drawnHistList.get(2);
+       	
+       		ArrayList<int[]> drawnHistList = imageHistogram(bmp);
+       		genhist = drawnHistList;
+       		//bmp.recycle();
+       		int[] redhisto = drawnHistList.get(0);
+       		Toast.makeText(getApplicationContext(), "The  redhito is "+redhisto, Toast.LENGTH_LONG).show();
+
+       		
+    		//int value2 = 0;
+    		
+       		
+       		int one = redhisto[0];
+       		int two = redhisto[8];
+       		int three = redhisto[16];
+       		int four = redhisto[24];
+       		int five = redhisto[33];
+       		int six = redhisto[41];
+       		int seven = redhisto[49];
+       		int eight = redhisto[57];
+       		int nine = redhisto[66];
+       		int ten = redhisto[74];
+       		int eleven = redhisto[82];
+       		int twelve = redhisto[90];
+       		int thirteen = redhisto[99];
+       		int fourteen = redhisto[107];
+       		int fifteen = redhisto[115];
+       		int sixteen = redhisto[123];
+       		int seventeen = redhisto[132];
+       		int eighteen = redhisto[140];
+       		int nineteen = redhisto[148];
+       		int twenty = redhisto[156];
+       		int twentyone = redhisto[165];
+       		int twentytwo = redhisto[173];
+       		int twentythree = redhisto[181];
+       		int twentyfour = redhisto[189];
+       		int twentyfive = redhisto[198];
+       		int twentysix = redhisto[206];
+       		int twentyseven = redhisto[214];
+       		int twentyeight = redhisto[222];
+       		int twentynine = redhisto[231];
+       		int thirty = redhisto[239];
+       		int thirtyone = redhisto[247];
+       		int thirtytwo = redhisto[255];
+       		
+       		EditText redbox = (EditText)findViewById(R.id.editText1);
+			String value = "At two is "+two;
+			redbox.setText(value, BufferType.SPANNABLE );
+			
+			EditText redbox2 = (EditText)findViewById(R.id.editText2);
+			String value2 = "At nine is "+nine;
+			redbox2.setText(value2, BufferType.SPANNABLE );
+			
+			EditText redbox3 = (EditText)findViewById(R.id.editText3);
+			String value3 = "At eighteen is "+eighteen;
+			redbox3.setText(value3, BufferType.SPANNABLE );
+			
+			EditText redbox4 = (EditText)findViewById(R.id.editText4);
+			String value4 = "At twentyone is "+twentyone;
+			redbox4.setText(value4, BufferType.SPANNABLE );
+			
+			
+			EditText redbox01 = (EditText)findViewById(R.id.EditText01);
+			String value01 = "At twentyseven is "+twentyseven;
+			redbox01.setText(value01, BufferType.SPANNABLE );
+			
+			EditText redbox02 = (EditText)findViewById(R.id.EditText02);
+			String value02 = "At thirtytwo is "+thirtytwo;
+			redbox02.setText(value02, BufferType.SPANNABLE );
+			
+			EditText redbox03 = (EditText)findViewById(R.id.EditText03);
+			String value03 = "At fourteen is "+fourteen;
+			redbox03.setText(value03, BufferType.SPANNABLE );
+			
+			EditText redbox04 = (EditText)findViewById(R.id.EditText04);
+			String value04 = "At five is "+five;
+			redbox04.setText(value04, BufferType.SPANNABLE );
+			
+       		for (int i=0; i < redhisto.length; ++i){
+       			if (redhisto[i]>0){
+       				
+       				int bar = redhisto[i];
+       				//value2 += redhisto[i];
+               		//Log.e("Value of redhistogram is: ", value);
+       				//String value = ""+bar;
+       				//redbox.setText(value, BufferType.SPANNABLE );
+       				
+           			Toast.makeText(getApplicationContext(), "The blue value greater than 0 at "+i+"is "+bar, Toast.LENGTH_LONG).show();
+           			
+       			}
+       			
+       		}
+
+    }*/
+    
+    public void copyDatabaseToSdCard() {
+		Log.e("Databasehealper", "********************************");
+		try {
+			File f1 = new File("/data/data/com.kiko.softwareltd/databases/maelewanodb");
+			if (f1.exists()) {
+
+				File f2 = new File(Environment.getExternalStorageDirectory().getAbsoluteFile()+ "/My_App_Database.db");
+				f2.createNewFile();
+				InputStream in = new FileInputStream(f1);
+				OutputStream out = new FileOutputStream(f2);
+				byte[] buf = new byte[1024];
+				int len;
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				out.close();
+			}
+		} catch (FileNotFoundException ex) {
+			System.out.println(ex.getMessage() + " in the specified directory.");
+			System.exit(0);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		Log.e("Databasehealper", "********************************");
+	}
+
+}

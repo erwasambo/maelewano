@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ImageView61"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/button_addgestures"
+        style="@style/AppTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="clip_vertical"
+        android:hint="@string/addgesturelib"
+        android:text="@string/addgrestures" />
+
+    <Button
+        android:id="@+id/button_interpret"
+        style="@style/AppTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:hint="@string/interpretgest"
+        android:text="@string/interpret" />
+
+    <Button
+        android:id="@+id/button_exitmaelewano"
+        style="@style/AppTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:hint="@string/exit"
+        android:text="@string/Exit" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="38dp"
+        android:layout_marginTop="45dp"
+        android:text="@string/settings"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/interpret"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="61dp"
+        android:layout_toRightOf="@+id/textView4"
+        android:text="@string/Exit"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_marginRight="45dp"
+        android:layout_toLeftOf="@+id/textView4"
+        android:text="@string/settings"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:cropToPadding="true"
+        android:maxWidth="70dp"
+        android:onClick="addGesturesClicked"
+        android:src="@drawable/addgesture" />
+
+    <ImageView
+        android:id="@+id/ImageView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:cropToPadding="true"
+        android:maxWidth="70dp"
+        android:onClick="interpretGesturesClicked"
+        android:src="@drawable/slate2" />
+
+    <ImageView
+        android:id="@+id/ImageView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView1"
+        android:layout_alignRight="@+id/textView1"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:cropToPadding="true"
+        android:maxWidth="70dp"
+        android:onClick="settingsClicked"
+        android:src="@drawable/settings" />
+
+    <ImageView
+        android:id="@+id/ImageView04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_alignRight="@+id/textView3"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:cropToPadding="true"
+        android:maxWidth="70dp"
+        android:onClick="viewGesturesClicked"
+        android:src="@drawable/galley" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ImageView21"
+        android:layout_toLeftOf="@+id/textView4"
+        android:text="@string/addgrestures"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ImageView21"
+        android:layout_toRightOf="@+id/textView4"
+        android:text="@string/viewgesturelibrary"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/ImageView03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView3"
+        android:layout_alignLeft="@+id/ImageView04"
+        android:layout_marginLeft="18dp"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:cropToPadding="true"
+        android:maxWidth="70dp"
+        android:onClick="exitClicked"
+        android:src="@drawable/exit" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:text="@string/learn"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/ImageView701"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/TextView01"
+        android:layout_alignLeft="@+id/ImageView21"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:cropToPadding="true"
+        android:maxWidth="70dp"
+        android:onClick="addGesturesClicked"
+        android:src="@drawable/library" />
+
+</RelativeLayout>

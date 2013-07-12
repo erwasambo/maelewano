@@ -1,0 +1,75 @@
+package com.kiko.softwareltd;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class SettingsActivity extends Activity{
+	private Button checkdb;
+	private EditText imageid, meaning, histogram;
+	private DataBaseManager DatabaseHelpers;
+	private String table = "gestures";
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.settings);
+		
+		//Create and open the database so we can use it
+		DatabaseHelpers = DataBaseManager.instance();
+				
+		ButtonListener listener = new ButtonListener();
+		checkdb = ((Button)findViewById(R.id.button1)); 
+		checkdb.setOnClickListener(listener);
+		
+		imageid = (EditText)findViewById(R.id.editText1);
+		meaning = (EditText)findViewById(R.id.editText2);
+		histogram = (EditText)findViewById(R.id.editText3);
+		
+	}
+	
+	private class ButtonListener implements View.OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			//String imageidvalue = imageid.toString();
+			//int jangili = imageidvalue.;
+			//jangili.;
+			/*String imageidvalue = imageid.toString();
+			if (imageidvalue!=null){
+				fetchvaluesfromdb(0);
+			}*/
+			//int imageidvalue = imageid.getText()..getInputType()..getText();
+			fetchvaluesfromdb(0);
+		}
+		
+	}
+	
+	public void fetchvaluesfromdb(int i){
+		
+		Cursor cursor = DatabaseHelpers.select("SELECT meaning, histogram FROM " + table + " WHERE imageid = " + i);
+		
+        //here we verify the cursor for null. If is null then the cursor must be closed.
+        //Once you open a cursor you have to close it too after you don't use it
+        if (cursor == null){
+            cursor.close();
+            
+        }
+        
+        while (cursor.moveToNext()){
+        	String smeaning = cursor.getString(0);
+        	String shistogram = cursor.getString(1);
+        	
+			meaning.setText(smeaning);
+			histogram.setText(shistogram);
+			//Log.e("Value of description", s);
+       }
+       
+         //here we close the cursor because we do not longer need it
+      
+        cursor.close();
+	}
+}

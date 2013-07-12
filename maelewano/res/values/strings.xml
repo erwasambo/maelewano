@@ -1,0 +1,55 @@
+<resources>
+	<string-array name="speed">
+        <item>12 Seconds</item>
+        <item>15 Seconds</item>
+        <item>18 Seconds</item>
+        <item>21 Seconds</item>
+        <item>30 Seconds</item>
+
+    </string-array>
+    
+    <string name="app_name">maelewano</string>
+    
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_splashscreen">Maelewano</string>
+    <string name="main">Maelewano (Shun sign language barrier)</string>
+    <string name="maelewano">maelewano</string>
+    <string name="copyright">©copyright 2013 Kiko Software Ltd.,Maelewano, are trademarks of Kiko Software Ltd. All rights reserved.</string>
+    <string name="capture">Capture</string>
+    <string name="Capture2">Capture</string>
+    <string name="Recapture">Recapture</string><string name="Upload">Save Gesture</string>
+    <string name="picture">Picture</string>
+
+    <string name="Exit">Exit</string>
+    <string name="addgrestures">Add Gestures</string>
+    <string name="interpret">Interpret Gestures</string>
+    <string name="viewgesturelibrary">View Gestures</string>
+    <string name="cachegestures">Make gesture interpretation faster by caching</string>
+    <string name="addgesturelib">Add a customised gesture to the library</string>
+    <string name="viewlibrarygest">Browse and modify the gesture library</string>
+    <string name="interpretgest">Capture and interpret the gesture from library</string>
+    <string name="exit">Quit Maelewano</string>
+    <string name="meaning">Meaning</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="dmeaning">Meaning of gesture</string>
+    <string name="scroll">Scroll gallery to the right or left to view other images</string>
+    <string name="settings">Settings</string>
+    <string name="imageid">Image Id</string>
+    <string name="imagemeani">Image Meaning</string>
+    <string name="checkdb">Check Database</string>
+    <string name="imagehisto">Image Histogram</string>
+    <string name="interpreting">Interpreting....</string>
+    <string name="redvalue">Red Value</string>
+    <string name="red">red</string>
+    <string name="green">green</string>
+    <string name="blue">blue</string>
+    <string name="totals">totals</string>
+    <string name="cleargesturesdatabase">Clear Gestures Database</string>
+    <string name="interspeed">Adjust Interpretation Speed</string>
+    <string name="save">Save</string>
+    <string name="space"></string>
+    <string name="learn">Learn Sign</string>
+    
+
+</resources>

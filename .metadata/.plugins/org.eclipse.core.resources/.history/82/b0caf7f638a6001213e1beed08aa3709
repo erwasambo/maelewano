@@ -1,0 +1,58 @@
+package com.kiko.softwareltd;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+
+public class SettingsActivity extends Activity{
+	
+	private DataBaseManager DatabaseHelpers;
+	private String table1 = "general";
+	SQLiteDatabase myDataBase;
+	ImageView cleardb;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.settings);
+		
+		//Create and open the database so we can use it
+		DatabaseHelpers = DataBaseManager.instance();
+		
+		myDataBase = DatabaseHelpers.getWritableDatabase();
+		
+		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+		// Create an ArrayAdapter using the string array and a default spinner layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        R.array.speed, android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+		
+		
+		
+		
+		cleardb = (ImageView)findViewById(R.id.imageView31);
+		cleardb.setOnClickListener(new View.OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+	        	myDataBase.delete(table1, null, null);
+	        	//myDataBase = DatabaseHelpers.getWritableDatabase();
+	        	//myDataBase.delete(table, null, null);
+	        	Log.e("Databasehealper", "Values deleted********************************");
+	        	
+	        }
+	    });
+	}
+}
